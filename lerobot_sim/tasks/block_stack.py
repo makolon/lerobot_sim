@@ -109,16 +109,8 @@ class BlockStack(lerobot_task.LeRobotTask):
 
         # Adjust positions for table height offset
         red_block_position = copy.deepcopy(red_block_uniform_position)
-        red_block_position.low[2] += self._scene._table_height_offset
-        red_block_position.high[2] += self._scene._table_height_offset
-
         blue_block_position = copy.deepcopy(blue_block_uniform_position)
-        blue_block_position.low[2] += self._scene._table_height_offset
-        blue_block_position.high[2] += self._scene._table_height_offset
-
         yellow_block_position = copy.deepcopy(yellow_block_uniform_position)
-        yellow_block_position.low[2] += self._scene._table_height_offset
-        yellow_block_position.high[2] += self._scene._table_height_offset
 
         # Create prop placers for blocks (bottom to top order)
         self._block_placers = [
@@ -128,21 +120,22 @@ class BlockStack(lerobot_task.LeRobotTask):
                 quaternion=block_z_rotation,
                 ignore_collisions=True,
                 settle_physics=False,
+                max_attempts_per_prop=100,
             ),
             initializers.PropPlacer(
                 props=[self._yellow_block_prop],
                 position=yellow_block_position,
                 quaternion=block_z_rotation,
-                ignore_collisions=False,
-                max_attempts_per_prop=40,
+                ignore_collisions=True,
+                max_attempts_per_prop=100,
                 settle_physics=False,
             ),
             initializers.PropPlacer(
                 props=[self._red_block_prop],
                 position=red_block_position,
                 quaternion=block_z_rotation,
-                ignore_collisions=False,
-                max_attempts_per_prop=40,
+                ignore_collisions=True,
+                max_attempts_per_prop=100,
                 settle_physics=False,
             ),
             initializers.PropPlacer(

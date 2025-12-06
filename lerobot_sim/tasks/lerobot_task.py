@@ -99,7 +99,6 @@ GRIPPER_LIMITS = immutabledict.immutabledict({
 
 _DEFAULT_PHYSICS_DELAY_SECS: float = 0.3
 _DEFAULT_JOINT_OBSERVATION_DELAY_SECS: float = 0.1
-_DEFAULT_TABLE_HEIGHT_OFFSET: float = 0.011
 
 # SO101 joint names from the MJCF model
 _ALL_JOINTS: tuple[str, ...] = (
@@ -138,7 +137,6 @@ class LeRobotTask(composer.Task):
             variation.Variation | float
         ) = _DEFAULT_PHYSICS_DELAY_SECS,
         update_interval: int = 1,
-        table_height_offset: float = _DEFAULT_TABLE_HEIGHT_OFFSET,
         waist_joint_limit: float = np.pi / 2,
         terminate_episode=True,
         mjcf_root: str | None = None,
@@ -161,7 +159,6 @@ class LeRobotTask(composer.Task):
                 the camera observations.
             update_interval: An integer, number of simulation steps between successive
                 updates to the value of this observable.
-            table_height_offset: The offset to the height of the table in meters.
             waist_joint_limit: The joint limit for the waist joint, in radians. Only
                 affects the action spec.
             terminate_episode: Whether to terminate the episode when the task
@@ -174,7 +171,6 @@ class LeRobotTask(composer.Task):
 
         self._scene = Arena(
             camera_resolution=camera_resolution,
-            table_height_offset=table_height_offset,
             mjcf_root_path=mjcf_root,
         )
         self._scene.mjcf_model.option.flag.multiccd = 'enable'
@@ -417,12 +413,10 @@ class Arena(composer.Arena):
         self,
         *args,
         camera_resolution,
-        table_height_offset=0.0,
         mjcf_root_path: str | None = None,
         **kwargs,
     ):
         self._camera_resolution = camera_resolution
-        self._table_height_offset = table_height_offset
         self.textures = []
         self._mjcf_root_path = mjcf_root_path
         super().__init__(*args, **kwargs)
@@ -451,20 +445,3 @@ class Arena(composer.Arena):
         self._mjcf_root.visual.__getattr__('global').offwidth = (
             self._camera_resolution[1]
         )
-
-        if self._table_height_offset:
-            # Shift the heights of the table, worms eye cam, and frame extrusions if they exist
-            table = self._mjcf_root.find('body', 'table')
-            if table is not None:
-                table.pos[2] += self._table_height_offset
-
-            worms_eye_cam = self._mjcf_root.find('camera', 'worms_eye_cam')
-            if worms_eye_cam is not None:
-                worms_eye_cam.pos[2] += self._table_height_offset
-
-            # Try to find and adjust frame extrusions (optional)
-            for geom in self._mjcf_root.find_all('geom'):
-                mesh = geom.__getattr__('mesh')
-                if mesh and mesh.name == 'cell_extrusions':
-                    geom.pos[2] += self._table_height_offset
-                    break
