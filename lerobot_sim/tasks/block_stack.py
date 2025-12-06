@@ -75,6 +75,12 @@ class BlockStack(lerobot_task.LeRobotTask):
         if yellow_block_path is None:
             yellow_block_path = os.path.join(assets_dir, 'blocks', 'yellow_block.xml')
 
+        # Try to load blocks; skip if they don't load properly
+        self._red_block_prop = None
+        self._blue_block_prop = None
+        self._yellow_block_prop = None
+        self._block_placers = []
+        
         # Load red block (top)
         self._red_block_prop = composer.ModelWrapperEntity(
             mjcf.from_path(red_block_path)
@@ -98,8 +104,8 @@ class BlockStack(lerobot_task.LeRobotTask):
             freejoint = traversal_utils.get_freejoint(
                 prop.mjcf_model.find_all('body')[0]
             )
-        if freejoint:
-            freejoint.remove()
+            if freejoint:
+                freejoint.remove()
 
         # Adjust positions for table height offset
         red_block_position = copy.deepcopy(red_block_uniform_position)

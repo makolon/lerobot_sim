@@ -22,11 +22,6 @@ dependencies = [
     "typing-extensions",
 ]
 
-[project.optional-dependencies]
-inference = [
-    "safari-sdk>=2.4.0"
-]
-
 [tool.setuptools.package-data]
 "lerobot_sim" = ["assets/**"]
 

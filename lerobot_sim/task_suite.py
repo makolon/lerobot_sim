@@ -1,7 +1,7 @@
 """Creates lerobot sim task environments using dm_control.composer."""
 
 import inspect
-from lerobot_sim.tasks import block_stacking
+from lerobot_sim.tasks import block_stack
 from dm_control import composer
 import immutabledict
 import numpy as np
@@ -14,7 +14,7 @@ DEFAULT_CAMERAS = (
 DEFAULT_CONTROL_TIMESTEP = 0.02
 
 TASK_FACTORIES = immutabledict.immutabledict({
-    'BlockStacking': (block_stacking.BlockStacking, {}),
+    'BlockStack': (block_stack.BlockStack, {}),
 })
 
 

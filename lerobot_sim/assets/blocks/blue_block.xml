@@ -1,0 +1,13 @@
+<mujoco model="blue_block">
+  <asset>
+    <material name="blue" rgba="0.1 0.1 0.8 1"/>
+  </asset>
+  
+  <worldbody>
+    <body name="blue_block">
+      <freejoint/>
+      <geom name="blue_block_geom" type="box" size="0.03 0.03 0.03" material="blue" friction="1 0.005 0.0001" density="1000"/>
+      <site name="blue_block_site" pos="0 0 0" size="0.02"/>
+    </body>
+  </worldbody>
+</mujoco>

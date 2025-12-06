@@ -453,16 +453,18 @@ class Arena(composer.Arena):
         )
 
         if self._table_height_offset:
-            # Shift the heights of the table, worms eye cam, and frame extrusions
+            # Shift the heights of the table, worms eye cam, and frame extrusions if they exist
             table = self._mjcf_root.find('body', 'table')
-            table.pos[2] += self._table_height_offset
+            if table is not None:
+                table.pos[2] += self._table_height_offset
 
-            extrusion_geom_found = False
+            worms_eye_cam = self._mjcf_root.find('camera', 'worms_eye_cam')
+            if worms_eye_cam is not None:
+                worms_eye_cam.pos[2] += self._table_height_offset
+
+            # Try to find and adjust frame extrusions (optional)
             for geom in self._mjcf_root.find_all('geom'):
                 mesh = geom.__getattr__('mesh')
                 if mesh and mesh.name == 'cell_extrusions':
                     geom.pos[2] += self._table_height_offset
-                    extrusion_geom_found = True
                     break
-            if not extrusion_geom_found:
-                raise ValueError('Frame extrusions not found in scene')
