@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lerobot_sim"
+version = "1.0.0"
+description = "LeRobot SO100/SO101 simulation package"
+requires-python = ">=3.10"
+dependencies = [
+    "absl-py",
+    "dm-control>=1.0.31",
+    "dm-env>=1.6",
+    "gdm-robotics",
+    "grpcio",
+    "immutabledict",
+    "mediapy",
+    "mujoco>=3.3.3",
+    "numpy",
+    "pillow",
+    "rich",
+    "typing-extensions",
+]
+
+[project.optional-dependencies]
+inference = [
+    "safari-sdk>=2.4.0"
+]
+
+[tool.setuptools.package-data]
+"lerobot_sim" = ["assets/**"]
+
+[tool.setuptools.packages.find]
+where = ["."]
