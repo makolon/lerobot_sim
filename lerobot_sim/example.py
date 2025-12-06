@@ -43,7 +43,7 @@ _INIT_ACTION = np.asarray([
     0.0,
     0.0,
 ])
-_INIT_ACTION = np.asarray([0.0, -1.70, 1.70, 0.921, 0.0120, 0.0])
+_REST_ACTION = np.asarray([0.0, -1.70, 1.70, 0.921, 0.0120, 0.0])
 
 
 def main(argv: Sequence[str]) -> None:
@@ -78,7 +78,7 @@ def main(argv: Sequence[str]) -> None:
         delayed_observation_padding=composer.ObservationPadding.INITIAL_VALUE,
     )
     
-    current_action = _INIT_ACTION.copy()
+    current_action = _REST_ACTION.copy()
     
     # Create video writer
     video_path = output_dir / 'simulation.mp4'
