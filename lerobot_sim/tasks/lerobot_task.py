@@ -128,7 +128,7 @@ class LeRobotTask(composer.Task):
         self,
         control_timestep: float,
         cameras: tuple[str, ...] = ('overhead_cam',),
-        camera_resolution: tuple[int, int] = (480, 848),
+        camera_resolution: tuple[int, int] = (480, 640),
         joints_observation_delay_secs: (
             variation.Variation | float
         ) = _DEFAULT_JOINT_OBSERVATION_DELAY_SECS,

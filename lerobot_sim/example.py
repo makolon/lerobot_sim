@@ -31,7 +31,7 @@ _NUM_STEPS = flags.DEFINE_integer(
 
 _LOG_STEPS = 100
 _DT = 0.02
-_IMAGE_SIZE = (480, 848)
+_IMAGE_SIZE = (480, 640)
 _LEROBOT_CAMERAS = {
     'overhead_cam': _IMAGE_SIZE,
 }
@@ -43,7 +43,7 @@ _INIT_ACTION = np.asarray([
     0.0,
     0.0,
 ])
-
+_INIT_ACTION = np.asarray([0.0, -1.70, 1.70, 0.921, 0.0120, 0.0])
 
 
 def main(argv: Sequence[str]) -> None:
