@@ -43,12 +43,14 @@ HOME_QPOS.setflags(write=False)
 # position.
 # SIM_GRIPPER_QPOS_CLOSE is the value of qpos when the gripper is closed in
 # sim.
-SIM_GRIPPER_QPOS_OPEN: float = 0.037
-SIM_GRIPPER_QPOS_CLOSE: float = 0.0078
+# SO101 gripper joint range: -0.17453 (closed) to 1.74533 (open) radians
+# This is the qpos value of the gripper joint in MuJoCo simulation
+SIM_GRIPPER_QPOS_OPEN: float = 1.74533
+SIM_GRIPPER_QPOS_CLOSE: float = -0.17453
 
 # Range used for setting ctrl
-SIM_GRIPPER_CTRL_OPEN: float = 0.037
-SIM_GRIPPER_CTRL_CLOSE: float = 0.002
+SIM_GRIPPER_CTRL_OPEN: float = 1.74533
+SIM_GRIPPER_CTRL_CLOSE: float = -0.17453
 
 # These are follower dynamixel values for OPEN and CLOSED gripper.
 FOLLOWER_GRIPPER_OPEN: float = 1.5155
