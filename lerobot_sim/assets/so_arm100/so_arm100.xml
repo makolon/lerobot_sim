@@ -1,4 +1,9 @@
 <mujoco model="so_arm100">
+  <!-- 
+    Original from: MuJoCo Menagerie (https://github.com/deepmind/mujoco_menagerie)
+    Licensed under Apache License 2.0
+    Modifications: Robot base position (Y-axis: -0.3m) and orientation (180 degree rotation around Z-axis)
+  -->
   <compiler angle="radian" meshdir="assets/"/>
 
   <option cone="elliptic" impratio="10"/>
@@ -65,7 +70,8 @@
   </default>
 
   <worldbody>
-    <body name="Base" pos="0 -0.3 0" quat="0 0 0 1.0" childclass="so_arm100">
+    <!-- Robot base: positioned at Y=-0.3m and rotated 180 degrees around Z-axis -->
+    <body name="Base" pos="0 -0.3 0" quat="0 0 1 0" childclass="so_arm100">
       <geom type="mesh" mesh="Base" class="visual"/>
       <geom type="mesh" mesh="Base_Motor" class="motor_visual"/>
       <geom type="mesh" mesh="Base" class="collision"/>

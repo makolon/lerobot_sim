@@ -19,6 +19,7 @@
   <worldbody>
     <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
     <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
-    <camera name="overhead_cam" pos="0 0 1.0" quat="1 0 0 0" fovy="45" />
+    <!-- Overhead camera adjusted for robot base position at Y=-0.3m -->
+    <camera name="overhead_cam" pos="0 -0.3 1.0" quat="1 0 0 0" fovy="45" />
   </worldbody>
 </mujoco>

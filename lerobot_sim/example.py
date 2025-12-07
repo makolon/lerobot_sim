@@ -35,14 +35,6 @@ _IMAGE_SIZE = (480, 640)
 _LEROBOT_CAMERAS = {
     'overhead_cam': _IMAGE_SIZE,
 }
-_INIT_ACTION = np.asarray([
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-])
 _REST_ACTION = np.asarray([0.0, -1.70, 1.70, 0.921, 0.0120, 0.0])
 
 
