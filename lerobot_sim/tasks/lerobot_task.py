@@ -1,4 +1,4 @@
-"""LeRobot SO100/SO101 base task which uses a MuJoCo Menagerie robot model."""
+"""LeRobot TRS SO ARM100 base task which uses a MuJoCo robot model."""
 
 import collections
 from collections.abc import Mapping
@@ -21,14 +21,15 @@ import numpy as np
 from numpy import typing as npt
 
 
-# SO101 HOME positions: [shoulder_pan, shoulder_lift, elbow_flex, wrist_flex, wrist_roll, gripper]
+# TRS SO ARM100 HOME positions: [Rotation, Pitch, Elbow, Wrist_Pitch, Wrist_Roll, Jaw]
+# Based on the "home" keyframe in so_arm100.xml
 HOME_CTRL: npt.NDArray[float] = np.array(
-    [0.0, 0.0, 0.0, 0.0, 0.0, 0.002]
+    [0.0, -1.57, 1.57, 1.57, -1.57, 0.0]
 )
 HOME_CTRL.setflags(write=False)
-# SO101 HOME qpos includes gripper as single joint (not mirrored)
+# TRS SO ARM100 HOME qpos includes gripper as single joint (not mirrored)
 HOME_QPOS: npt.NDArray[float] = np.array(
-    [0.0, 0.0, 0.0, 0.0, 0.0, 0.002]
+    [0.0, -1.57, 1.57, 1.57, -1.57, 0.0]
 )
 HOME_QPOS.setflags(write=False)
 
@@ -43,14 +44,14 @@ HOME_QPOS.setflags(write=False)
 # position.
 # SIM_GRIPPER_QPOS_CLOSE is the value of qpos when the gripper is closed in
 # sim.
-# SO101 gripper joint range: -0.17453 (closed) to 1.74533 (open) radians
+# TRS SO ARM100 gripper (Jaw) joint range: -0.174 (closed) to 1.75 (open) radians
 # This is the qpos value of the gripper joint in MuJoCo simulation
-SIM_GRIPPER_QPOS_OPEN: float = 1.74533
-SIM_GRIPPER_QPOS_CLOSE: float = -0.17453
+SIM_GRIPPER_QPOS_OPEN: float = 1.75
+SIM_GRIPPER_QPOS_CLOSE: float = -0.174
 
 # Range used for setting ctrl
-SIM_GRIPPER_CTRL_OPEN: float = 1.74533
-SIM_GRIPPER_CTRL_CLOSE: float = -0.17453
+SIM_GRIPPER_CTRL_OPEN: float = 1.75
+SIM_GRIPPER_CTRL_CLOSE: float = -0.174
 
 # These are follower dynamixel values for OPEN and CLOSED gripper.
 FOLLOWER_GRIPPER_OPEN: float = 1.5155
@@ -102,14 +103,14 @@ GRIPPER_LIMITS = immutabledict.immutabledict({
 _DEFAULT_PHYSICS_DELAY_SECS: float = 0.3
 _DEFAULT_JOINT_OBSERVATION_DELAY_SECS: float = 0.1
 
-# SO101 joint names from the MJCF model
+# TRS SO ARM100 joint names from the MJCF model
 _ALL_JOINTS: tuple[str, ...] = (
-    'shoulder_pan',
-    'shoulder_lift',
-    'elbow_flex',
-    'wrist_flex',
-    'wrist_roll',
-    'gripper',
+    'Rotation',      # Base rotation (yaw)
+    'Pitch',         # Shoulder pitch
+    'Elbow',         # Elbow joint
+    'Wrist_Pitch',   # Wrist pitch
+    'Wrist_Roll',    # Wrist roll
+    'Jaw',           # Gripper jaw
 )
 
 
@@ -124,7 +125,7 @@ class GeomGroup(enum.IntFlag):
 
 
 class LeRobotTask(composer.Task):
-    """The base SO101 task for single-arm manipulation."""
+    """The base TRS SO ARM100 task for single-arm manipulation."""
 
     def __init__(
         self,
@@ -143,7 +144,7 @@ class LeRobotTask(composer.Task):
         terminate_episode=True,
         mjcf_root: str | None = None,
     ):
-        """Initializes a new SO101 task.
+        """Initializes a new TRS SO ARM100 task.
 
         Args:
             control_timestep: Float specifying the control timestep in seconds.
@@ -267,8 +268,8 @@ class LeRobotTask(composer.Task):
         )
 
     def action_spec(self, physics: mjcf.Physics) -> specs.BoundedArray:
-        # SO101 single arm: 0-4: arm joints (shoulder_pan, shoulder_lift, elbow_flex, wrist_flex, wrist_roll)
-        # 5: gripper
+        # TRS SO ARM100 single arm: 0-4: arm joints (Rotation, Pitch, Elbow, Wrist_Pitch, Wrist_Roll)
+        # 5: gripper (Jaw)
         minimum = physics.model.actuator_ctrlrange[:, 0].astype(np.float32)
         maximum = physics.model.actuator_ctrlrange[:, 1].astype(np.float32)
         
@@ -306,7 +307,7 @@ class LeRobotTask(composer.Task):
         action: npt.ArrayLike,
         random_state: np.random.RandomState,
     ) -> None:
-        # SO101 single arm: action is [shoulder_pan, shoulder_lift, elbow_flex, wrist_flex, wrist_roll, gripper]
+        # TRS SO ARM100 single arm: action is [Rotation, Pitch, Elbow, Wrist_Pitch, Wrist_Roll, Jaw]
         arm_joints = action[:5]
         gripper_action = action[5]
 
@@ -341,7 +342,7 @@ class LeRobotTask(composer.Task):
     ) -> None:
         arm_joints_bound = physics.bind(self._joints)
 
-        # SO101 has single arm with 6 joints
+        # TRS SO ARM100 has single arm with 6 joints
         arm_joints_bound.qpos[:] = HOME_QPOS
 
         np.copyto(physics.data.ctrl, HOME_CTRL)
@@ -361,7 +362,7 @@ class LeRobotObservables(composer.Observables):
     @define.observable
     def joints_pos(self) -> observable.Observable:
         def _get_joints_pos(physics):
-            # SO101: 5 arm joints + 1 gripper joint
+            # TRS SO ARM100: 5 arm joints + 1 gripper joint
             gripper_pos = physics.data.qpos[5]
 
             gripper_qpos = LeRobotTask.convert_gripper(
@@ -406,7 +407,7 @@ class LeRobotObservables(composer.Observables):
 
 
 class Arena(composer.Arena):
-    """Standard Arena for SO101.
+    """Standard Arena for TRS SO ARM100.
 
     Forked from dm_control/manipulation/shared/arenas.py
     """

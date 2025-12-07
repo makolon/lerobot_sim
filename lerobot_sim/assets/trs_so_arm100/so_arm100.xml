@@ -65,7 +65,7 @@
   </default>
 
   <worldbody>
-    <body name="Base" childclass="so_arm100">
+    <body name="Base" pos="0 -0.3 0" quat="0 0 0 1.0" childclass="so_arm100">
       <geom type="mesh" mesh="Base" class="visual"/>
       <geom type="mesh" mesh="Base_Motor" class="motor_visual"/>
       <geom type="mesh" mesh="Base" class="collision"/>
