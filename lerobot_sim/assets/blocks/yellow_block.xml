@@ -1,14 +1,23 @@
 <mujoco model="yellow_block">
+  <compiler angle="radian"/>
+  <option timestep="0.002" iterations="50" ls_iterations="20"/>
+  
   <asset>
     <material name="yellow" rgba="0.9 0.9 0.1 1"/>
   </asset>
   
+  <default>
+    <geom margin="0.0005" solimp="0.99 0.999 0.01" solref="0.004 1"/>
+  </default>
+  
   <worldbody>
     <body name="yellow_block">
       <freejoint/>
-      <!-- High friction for better grasping: (mu, mu_roll, mu_spin) -->
-      <!-- mu: sliding friction, mu_roll: rolling resistance, mu_spin: spinning resistance -->
-      <geom name="yellow_block_geom" type="box" size="0.015 0.015 0.015" material="yellow" friction="2.0 0.1 0.05" density="1000"/>
+      <inertial pos="0 0 0" mass="0.05" diaginertia="0.0001 0.0001 0.0001"/>
+      <!-- Larger block: 3cm cubes with proper friction and no penetration -->
+      <!-- friction: (mu=1.2, mu_roll=0.05, mu_spin=0.02) for good grasping -->
+      <geom name="yellow_block_geom" type="box" size="0.015 0.015 0.015" material="yellow" 
+            friction="1.2 0.05 0.02" density="0" condim="4" conaffinity="1"/>
       <site name="yellow_block_site" pos="0 0 0" size="0.015"/>
     </body>
   </worldbody>
