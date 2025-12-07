@@ -6,7 +6,9 @@
   <worldbody>
     <body name="red_block">
       <freejoint/>
-      <geom name="red_block_geom" type="box" size="0.015 0.015 0.015" material="red" friction="1 0.005 0.0001" density="500"/>
+      <!-- High friction for better grasping: (mu, mu_roll, mu_spin) -->
+      <!-- mu: sliding friction, mu_roll: rolling resistance, mu_spin: spinning resistance -->
+      <geom name="red_block_geom" type="box" size="0.015 0.015 0.015" material="red" friction="2.0 0.1 0.05" density="1000"/>
       <site name="red_block_site" pos="0 0 0" size="0.015"/>
     </body>
   </worldbody>
