@@ -18,15 +18,15 @@ _BLOCK_RESET_HEIGHT = 0.03
 
 # Red block position (to be placed on top)
 red_block_uniform_position = distributions.Uniform(
-    low=[-0.15, 0.15, _BLOCK_RESET_HEIGHT],
-    high=[-0.05, 0.25, _BLOCK_RESET_HEIGHT],
+    low=[-0.15, -0.05, _BLOCK_RESET_HEIGHT],
+    high=[-0.05, 0.05, _BLOCK_RESET_HEIGHT],
     single_sample=True,
 )
 
 # Blue block position (base block - bottom)
 blue_block_uniform_position = distributions.Uniform(
-    low=[0.05, 0.15, _BLOCK_RESET_HEIGHT],
-    high=[0.15, 0.25, _BLOCK_RESET_HEIGHT],
+    low=[0.05, -0.05, _BLOCK_RESET_HEIGHT],
+    high=[0.15, 0.05, _BLOCK_RESET_HEIGHT],
     single_sample=True,
 )
 
