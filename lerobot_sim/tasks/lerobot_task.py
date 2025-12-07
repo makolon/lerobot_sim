@@ -434,7 +434,7 @@ class Arena(composer.Arena):
             self._mjcf_root_path = os.path.join(
                 os.path.dirname(__file__),
                 '../assets',
-                'so101/scene.xml',
+                'trs_so_arm100/scene.xml',
             )
 
         self._mjcf_root = mjcf.from_path(
