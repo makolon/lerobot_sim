@@ -48,12 +48,6 @@ python lerobot_sim/example.py --task_name BlockStack --num_steps 500 --output_di
 
 This will save `simulation.mp4` under the specified output directory.
 
-## Tests
-
-```bash
-python test_environment.py
-```
-
 ## Tips
 
 - If stepping is slow, verify `MUJOCO_GL` (e.g., `'egl'` on Linux servers).
