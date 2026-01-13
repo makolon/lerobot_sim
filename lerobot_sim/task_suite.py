@@ -12,6 +12,7 @@ import numpy as np
 
 DEFAULT_CAMERAS = (
     'overhead_cam',
+    'front_cam',
 )
 
 DEFAULT_CONTROL_TIMESTEP = 0.02

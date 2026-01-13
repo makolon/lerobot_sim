@@ -49,8 +49,8 @@ _DT = 0.02
 _IMAGE_SIZE = (480, 848)
 _LEROBOT_CAMERAS = {
     'overhead_cam': _IMAGE_SIZE,
+    'front_cam': _IMAGE_SIZE,
 }
-_LEROBOT_JOINTS = {'joints_pos': 6}
 _INIT_ACTION = np.asarray([
     0.0,
     0.0,

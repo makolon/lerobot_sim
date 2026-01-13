@@ -130,7 +130,7 @@ class LeRobotTask(composer.Task):
     def __init__(
         self,
         control_timestep: float,
-        cameras: tuple[str, ...] = ('overhead_cam',),
+        cameras: tuple[str, ...] = ('overhead_cam', 'front_cam'),
         camera_resolution: tuple[int, int] = (480, 640),
         joints_observation_delay_secs: (
             variation.Variation | float

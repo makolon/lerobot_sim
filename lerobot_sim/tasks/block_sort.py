@@ -16,21 +16,21 @@ _TARGET_RADIUS = 0.05
 
 # Blue block position (start)
 blue_block_uniform_position = distributions.Uniform(
-    low=[-0.05, 0.05, _BLOCK_RESET_HEIGHT],
-    high=[0.05, 0.15, _BLOCK_RESET_HEIGHT],
+    low=[-0.1, 0.0, _BLOCK_RESET_HEIGHT],
+    high=[0.0, 0.10, _BLOCK_RESET_HEIGHT],
     single_sample=True,
 )
 
 # Red block position (start)
 red_block_uniform_position = distributions.Uniform(
-    low=[-0.05, -0.15, _BLOCK_RESET_HEIGHT],
-    high=[0.05, -0.05, _BLOCK_RESET_HEIGHT],
+    low=[-0.1, -0.10, _BLOCK_RESET_HEIGHT],
+    high=[0.0, 0.0, _BLOCK_RESET_HEIGHT],
     single_sample=True,
 )
 
 # Target positions
-BLUE_TARGET_POS = np.array([0.15, 0.1, 0.0])
-RED_TARGET_POS = np.array([0.15, -0.1, 0.0])
+BLUE_TARGET_POS = np.array([0.1, 0.05, 0.0])
+RED_TARGET_POS = np.array([0.1, -0.05, 0.0])
 
 # Random rotation around Z-axis
 block_z_rotation = rotations.UniformQuaternion()

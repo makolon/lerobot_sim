@@ -34,6 +34,7 @@ _DT = 0.02
 _IMAGE_SIZE = (480, 640)
 _LEROBOT_CAMERAS = {
     'overhead_cam': _IMAGE_SIZE,
+    'front_cam': _IMAGE_SIZE,
 }
 _REST_ACTION = np.asarray([0.0, -1.70, 1.70, 0.921, 0.0120, 0.0])
 
@@ -108,7 +109,7 @@ def main(argv: Sequence[str]) -> None:
         time_stepping += step_end_time - frame_start_time
 
         # OpenCV uses BGR format, but renderer returns RGB
-        pixels = timestep.observation["overhead_cam"]
+        pixels = timestep.observation["front_cam"]
         frame_bgr = cv2.cvtColor(pixels, cv2.COLOR_RGB2BGR)
         video_writer.write(frame_bgr)
         

@@ -21,5 +21,7 @@
     <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
     <!-- Overhead camera adjusted for robot base position at Y=-0.3m -->
     <camera name="overhead_cam" pos="0 0 1.0" quat="1 0 0 0" fovy="45" />
+    <!-- Front camera: distance=0.5, azimuth=0, elevation=30, lookat=[0, 0, 0.1] -->
+    <camera name="front_cam" pos="0 0.433 0.35" xyaxes="-1 0 0 0 -0.5 0.866" fovy="45" />
   </worldbody>
 </mujoco>
