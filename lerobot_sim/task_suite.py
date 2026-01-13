@@ -2,6 +2,9 @@
 
 import inspect
 from lerobot_sim.tasks import block_stack
+from lerobot_sim.tasks import block_pnp
+from lerobot_sim.tasks import block_sort
+
 from dm_control import composer
 import immutabledict
 import numpy as np
@@ -15,6 +18,8 @@ DEFAULT_CONTROL_TIMESTEP = 0.02
 
 TASK_FACTORIES = immutabledict.immutabledict({
     'BlockStack': (block_stack.BlockStack, {}),
+    'BlockPnP': (block_pnp.BlockPnP, {}),
+    'BlockSort': (block_sort.BlockSort, {}),
 })
 
 
