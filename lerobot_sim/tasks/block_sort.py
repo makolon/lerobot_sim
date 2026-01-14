@@ -11,7 +11,7 @@ from dm_control.composer.variation import rotations
 from dm_control.mjcf import traversal_utils
 import numpy as np
 
-_BLOCK_RESET_HEIGHT = 0.03
+_BLOCK_RESET_HEIGHT = 0.02
 _TARGET_RADIUS = 0.05
 
 # Blue block position (start)
