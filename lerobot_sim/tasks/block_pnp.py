@@ -87,14 +87,23 @@ class BlockPnP(lerobot_task.LeRobotTask):
         self._placer(physics, random_state)
 
     def get_reward(self, physics):
-        """Returns 1.0 if the blue block is at the target position."""
-        # Get position of the block
-        blue_pos, _ = self._blue_block_prop.get_pose(physics)
-        
+        """Returns 1.0 if the blue block is on the ground within the target."""
+        blue_body = self._blue_block_prop.mjcf_model.find_all('body')[0]
+        blue_geom = self._blue_block_prop.mjcf_model.find_all('geom')[0]
+        blue_bind = physics.bind(blue_body)
+
+        blue_pos = blue_bind.xpos
+
         # Calculate distance to target (only xy plane)
         dist = np.linalg.norm(blue_pos[:2] - TARGET_POS[:2])
-        
-        # Return reward based on distance
-        if dist < _TARGET_RADIUS:
+
+        # Require the block to be resting on the ground plane (z ~= half-height).
+        half_height = float(blue_geom.size[2])
+        ground_z = 0.0
+        ground_tol = 0.005  # 5mm tolerance for contact/settling
+        on_ground = abs(blue_pos[2] - (ground_z + half_height)) <= ground_tol
+
+        # Return reward based on distance and ground contact.
+        if dist < _TARGET_RADIUS and on_ground:
             return 1.0
         return 0.0

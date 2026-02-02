@@ -131,26 +131,24 @@ class BlockStack(lerobot_task.LeRobotTask):
             prop_placer(physics, random_state)
 
     def get_reward(self, physics):
-        """Returns 1.0 if all 3 blocks are successfully stacked: blue (bottom), red (top)."""
-        # Get positions of all blocks
-        red_block_pos = physics.bind(self._red_block_prop.mjcf_model.find_all('body')[0]).xpos
-        blue_block_pos = physics.bind(self._blue_block_prop.mjcf_model.find_all('body')[0]).xpos
-            
-        # Block height assumption (in meters)
-        block_height = 0.05
-        horizontal_threshold = 0.05  # 5cm tolerance
-        vertical_tolerance = 0.02  # ±2cm tolerance
-        
-        # Check if red block is on blue block (top on bottom)
-        horizontal_dist_red_blue = np.linalg.norm(red_block_pos[:2] - blue_block_pos[:2])
-        vertical_dist_red_blue = red_block_pos[2] - blue_block_pos[2]
-        red_on_blue = (
-            horizontal_dist_red_blue < horizontal_threshold and
-            block_height - vertical_tolerance < vertical_dist_red_blue < block_height + vertical_tolerance
-        )
-        
-        # Success: both conditions must be satisfied
-        if red_on_blue:
-            return 1.0
-        
-        return 0.0
+        """Returns 1.0 when blocks are stacked; otherwise 0.0."""
+        red_body = self._red_block_prop.mjcf_model.find_all('body')[0]
+        blue_body = self._blue_block_prop.mjcf_model.find_all('body')[0]
+        red_pos = physics.bind(red_body).xpos
+        blue_pos = physics.bind(blue_body).xpos
+
+        red_geom = self._red_block_prop.mjcf_model.find_all('geom')[0]
+        blue_geom = self._blue_block_prop.mjcf_model.find_all('geom')[0]
+
+        red_half = np.array(red_geom.size, dtype=np.float32)
+        blue_half = np.array(blue_geom.size, dtype=np.float32)
+
+        target_height = float(red_half[2] + blue_half[2])
+        xy_tolerance = float(min(red_half[0], red_half[1], blue_half[0], blue_half[1]))
+        z_tolerance = float(min(red_half[2], blue_half[2]) * 0.5)
+
+        xy_error = float(np.linalg.norm(red_pos[:2] - blue_pos[:2]))
+        z_error = float(abs((red_pos[2] - blue_pos[2]) - target_height))
+
+        stacked = (xy_error <= xy_tolerance) and (z_error <= z_tolerance)
+        return 1.0 if stacked else 0.0

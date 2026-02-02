@@ -138,8 +138,13 @@ class BlockSort(lerobot_task.LeRobotTask):
         Returns 0.5 for each block in its correct target, 1.0 for both blocks sorted correctly.
         """
         # Get positions of blocks
-        blue_block_pos = physics.bind(self._blue_block_prop.mjcf_model.find_all('body')[0]).xpos
-        red_block_pos = physics.bind(self._red_block_prop.mjcf_model.find_all('body')[0]).xpos
+        blue_body = self._blue_block_prop.mjcf_model.find_all('body')[0]
+        red_body = self._red_block_prop.mjcf_model.find_all('body')[0]
+        blue_geom = self._blue_block_prop.mjcf_model.find_all('geom')[0]
+        red_geom = self._red_block_prop.mjcf_model.find_all('geom')[0]
+
+        blue_block_pos = physics.bind(blue_body).xpos
+        red_block_pos = physics.bind(red_body).xpos
         
         # Check if blocks are in their target zones (horizontal distance only)
         blue_dist = np.linalg.norm(blue_block_pos[:2] - BLUE_TARGET_POS[:2])
@@ -147,12 +152,18 @@ class BlockSort(lerobot_task.LeRobotTask):
         
         blue_in_target = blue_dist < _TARGET_RADIUS
         red_in_target = red_dist < _TARGET_RADIUS
+
+        # Require blocks to be resting on the ground plane.
+        ground_z = 0.0
+        ground_tol = 0.005  # 5mm tolerance for contact/settling
+        blue_on_ground = abs(blue_block_pos[2] - (ground_z + blue_geom.size[2])) <= ground_tol
+        red_on_ground = abs(red_block_pos[2] - (ground_z + red_geom.size[2])) <= ground_tol
         
         # Return reward
         reward = 0.0
-        if blue_in_target:
+        if blue_in_target and blue_on_ground:
             reward += 0.5
-        if red_in_target:
+        if red_in_target and red_on_ground:
             reward += 0.5
         
         return reward
