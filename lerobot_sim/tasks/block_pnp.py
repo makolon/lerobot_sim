@@ -68,7 +68,7 @@ class BlockPnP(lerobot_task.LeRobotTask):
         if blue_block_path is None:
             blue_block_path = os.path.join(assets_dir, 'blocks', 'blue_block.xml')
         if bowl_path is None:
-            bowl_path = os.path.join(assets_dir, 'bowl', 'bowl.xml')
+            bowl_path = os.path.join(assets_dir, 'bowl', 'model.xml')
 
         self._bowl_inner_radius = None
         self._bowl_inner_height = None
