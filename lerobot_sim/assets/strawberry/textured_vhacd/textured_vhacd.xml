@@ -1,0 +1,19 @@
+<mujoco model="textured_vhacd">
+  <default>
+    <default class="visual">
+      <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+    </default>
+    <default class="collision">
+      <geom group="3" type="mesh"/>
+    </default>
+  </default>
+  <asset>
+    <mesh file="textured_vhacd.obj"/>
+  </asset>
+  <worldbody>
+    <body name="textured_vhacd">
+      <geom mesh="textured_vhacd" class="visual"/>
+      <geom mesh="textured_vhacd" class="collision"/>
+    </body>
+  </worldbody>
+</mujoco>

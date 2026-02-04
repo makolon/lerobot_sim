@@ -110,7 +110,7 @@ def main(argv: Sequence[str]) -> None:
         time_stepping += step_end_time - frame_start_time
 
         # OpenCV uses BGR format, but renderer returns RGB
-        pixels = timestep.observation["wrist_cam"]
+        pixels = timestep.observation["front_cam"]
         frame_bgr = cv2.cvtColor(pixels, cv2.COLOR_RGB2BGR)
         video_writer.write(frame_bgr)
         
