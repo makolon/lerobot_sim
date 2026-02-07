@@ -52,7 +52,7 @@ No additional restrictions: You may not apply legal terms or technological measu
     <mesh file="coacd_part_021.obj"/>
     <mesh file="coacd_part_022.obj"/>
     <mesh file="coacd_part_023.obj"/>
-    <mesh file="coacd_part_red.obj"/>
+    <mesh file="coacd_part_024.obj"/>
     <mesh file="coacd_part_025.obj"/>
     <mesh file="coacd_part_026.obj"/>
     <mesh file="coacd_part_027.obj"/>
@@ -124,7 +124,7 @@ No additional restrictions: You may not apply legal terms or technological measu
       <geom class="collision_red_bowl" mesh="coacd_part_021" rgba="0.357 0.28 0.54 1"/>
       <geom class="collision_red_bowl" mesh="coacd_part_022" rgba="0.141 0.80 0.07 1"/>
       <geom class="collision_red_bowl" mesh="coacd_part_023" rgba="0.987 0.77 0.20 1"/>
-      <geom class="collision_red_bowl" mesh="coacd_part_red" rgba="0.006 0.82 0.71 1"/>
+      <geom class="collision_red_bowl" mesh="coacd_part_024" rgba="0.006 0.82 0.71 1"/>
       <geom class="collision_red_bowl" mesh="coacd_part_025" rgba="0.729 0.77 0.07 1"/>
       <geom class="collision_red_bowl" mesh="coacd_part_026" rgba="0.358 0.12 0.86 1"/>
       <geom class="collision_red_bowl" mesh="coacd_part_027" rgba="0.623 0.33 0.06 1"/>
