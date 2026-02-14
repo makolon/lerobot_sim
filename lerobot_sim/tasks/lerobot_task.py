@@ -24,12 +24,12 @@ from numpy import typing as npt
 # SO ARM100 HOME positions: [Rotation, Pitch, Elbow, Wrist_Pitch, Wrist_Roll, Jaw]
 # Based on the "home" keyframe in so_arm100.xml
 HOME_CTRL: npt.NDArray[float] = np.array(
-    [0.0, -1.57, 1.57, 1.57, -1.57, 0.0]
+    [0.0, -1.57, 1.57, 1.57, 0.0, 0.0]
 )
 HOME_CTRL.setflags(write=False)
 # SO ARM100 HOME qpos includes gripper as single joint (not mirrored)
 HOME_QPOS: npt.NDArray[float] = np.array(
-    [0.0, -1.57, 1.57, 1.57, -1.57, 0.0]
+    [0.0, -1.57, 1.57, 1.57, 0.0, 0.0]
 )
 HOME_QPOS.setflags(write=False)
 
